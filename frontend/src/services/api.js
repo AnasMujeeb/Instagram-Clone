@@ -1,0 +1,20 @@
+import axios from 'axios';
+import { API_URL } from '../config/env';
+
+export const api = axios.create({
+  baseURL: `${API_URL}/api`,
+});
+
+api.interceptors.request.use((config) => {
+  const stored = localStorage.getItem('user');
+  if (stored) {
+    try {
+      const user = JSON.parse(stored);
+      if (user?.token) {
+        config.headers.Authorization = `Bearer ${user.token}`;
+      }
+    } catch {
+    }
+  }
+  return config;
+});

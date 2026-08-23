@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+const { protect } = require('../middleware/authMiddleware');
+const { upload } = require('../config/cloudinary');
+const { createStory, getStories, viewStory, deleteStory } = require('../controllers/storyController');
+
+router.post('/', protect, upload.single('image'), createStory);
+router.get('/', protect, getStories);
+router.put('/:id/view', protect, viewStory);
+router.delete('/:id', protect, deleteStory);
+
+module.exports = router;
